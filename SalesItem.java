@@ -17,6 +17,7 @@ public class SalesItem
     private String name;
     private int price;  // in cents
     private ArrayList<Comment> comments;
+    private SalesItemTest test;
     
     /**
      * Create a new sales item.
@@ -26,6 +27,11 @@ public class SalesItem
         this.name = name;
         this.price = price;
         comments = new ArrayList<>();
+    }
+    
+    public ArrayList<Comment> getComments()
+    {
+        return comments;
     }
 
     /**
@@ -117,9 +123,11 @@ public class SalesItem
         System.out.println("Price: " + priceString(price));
         System.out.println();
         System.out.println("Customer comments:");
-        for(Comment comment : comments) {
+        int i = 0;
+        while(i < comments.size()){
             System.out.println("-------------------------------------------");
-            System.out.println(comment.getFullDetails());
+            System.out.println(getComments().get(i).getFullDetails());
+            i++;
         }
         System.out.println();
         System.out.println("===========================================");
@@ -132,13 +140,14 @@ public class SalesItem
      */
     public Comment findMostHelpfulComment()
     {
-        Iterator<Comment> it = comments.iterator();
-        Comment best = it.next();
-        while(it.hasNext()) {
-            Comment current = it.next();
+        int i = 0;
+        Comment best = getComments().get(0);
+        while(i < comments.size()) {
+            Comment current = getComments().get(i);
             if(current.getVoteCount() > best.getVoteCount()) {
                 best = current;
             }
+            i++;
         }
         return best;
     }
@@ -149,7 +158,7 @@ public class SalesItem
      */
     private boolean ratingInvalid(int rating)
     {
-        return rating < 0 || rating > 5;
+        return rating <= 0 || rating > 5;
     }
     
     /**
@@ -158,10 +167,13 @@ public class SalesItem
      */
     private Comment findCommentByAuthor(String author)
     {
-        for(Comment comment : comments) {
-            if(comment.getAuthor().equals(author)) {
-                return comment;
+        int i = 0;
+        while(i < comments.size()) {
+            Comment match = getComments().get(i);
+            if(match.getAuthor().equals(author)) {
+                return match;
             }
+            i++;
         }
         return null;
     }

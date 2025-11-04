@@ -2,6 +2,7 @@ import static org.junit.Assert.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import java.util.ArrayList;
 
 /**
  * The test class SalesItemTest.
@@ -69,4 +70,27 @@ public class SalesItemTest
         assertEquals("test name", salesIte1.getName());
         assertEquals(1000, salesIte1.getPrice());
     }
+
+    @Test
+    public void HelpfulCommentTest()
+    {
+        SalesItem salesIte1 = new SalesItem("Pikachu", 999);
+        salesIte1.addComment("Micheal Afton", "Trash.", 1);
+        salesIte1.addComment("Liam", "AMAZING!", 5);
+        salesIte1.upvoteComment(1);
+        Comment comment1 = salesIte1.findMostHelpfulComment();
+        assertEquals(salesIte1.getComments().get(1), comment1);
+        assertEquals(1, comment1.getVoteCount());
+    }
+
+    @Test
+    public void getAllComments()
+    {
+        SalesItem salesIte2 = new SalesItem("Pikachu", 999);
+        salesIte2.addComment("Micheal Afton", "Great for my plans!", 5);
+        salesIte2.addComment("Liam", "Trash.", 1);
+        assertEquals(2, salesIte2.getComments().size());
+    }
 }
+
+
